@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GreenLife Market — feira dos produtores locais</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          forest: { DEFAULT: '#1D2E20', light: '#28402C', dark: '#132018' },
+          paper: { DEFAULT: '#F7F1E3', dark: '#EDE2C7' },
+          lime: { DEFAULT: '#B7CB3E', dark: '#9AAE2E' },
+          ink: { DEFAULT: '#1D2E20', muted: '#5C6B57' }
+        },
+        fontFamily: { display: ['Fraunces', 'serif'], body: ['Work Sans', 'sans-serif'] }
+      }
+    }
+  }
+</script>
+<style>
+  body { font-family: 'Work Sans', sans-serif; }
+  .font-display { font-family: 'Fraunces', serif; }
+  ::selection { background: #B7CB3E; color: #1D2E20; }
+  @media (prefers-reduced-motion: reduce) { * { transition-duration: 0.01ms !important; } }
+  button:focus-visible, a:focus-visible, input:focus-visible { outline: 2px solid #B7CB3E; outline-offset: 2px; }
+</style>
+</head>
+<body class="bg-paper text-ink">
+
+  <!-- ===== HEADER ===== -->
+  <header class="sticky top-0 z-40 bg-forest text-paper">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
+      <a href="#topo" class="font-display text-2xl font-semibold">GreenLife <span class="text-lime">Market</span></a>
+      <button onclick="abrirCarrinho()" aria-label="Abrir carrinho" class="relative flex items-center gap-2 bg-lime text-forest-dark font-semibold px-4 py-2 rounded-full hover:bg-lime-dark transition-colors">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.29 2.29c-.63.63-.18 1.71.71 1.71H17M9 20a1 1 0 100-2 1 1 0 000 2zm8 0a1 1 0 100-2 1 1 0 000 2z"/></svg>
+        <span class="hidden sm:inline">Carrinho</span>
+        <span id="contadorCarrinho" class="absolute -top-2 -right-2 bg-forest-dark text-paper text-xs w-5 h-5 rounded-full flex items-center justify-center">0</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ===== HERO ===== -->
+  <section id="topo" class="bg-forest text-paper">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 py-14 sm:py-16 grid md:grid-cols-2 gap-8 items-center">
+      <div>
+        <h2 class="font-display text-4xl sm:text-5xl leading-[1.05] font-semibold">
+          Da terra do vizinho pra sua mesa.
+        </h2>
+        <p class="mt-4 text-paper/75 max-w-md leading-relaxed">
+          Compre direto de produtores da região. Sem intermediário, sem caminhão parado esperando.
+        </p>
+        <a href="#produtos" class="inline-block mt-6 bg-lime text-forest-dark font-semibold px-6 py-3 rounded-full hover:bg-lime-dark transition-colors">Ver produtos</a>
+      </div>
+      <img src="https://images.unsplash.com/photo-1488459716781-31db52582fe9?w=700&q=80" alt="Feira de produtos locais" class="w-full h-56 sm:h-72 object-cover rounded-2xl">
+    </div>
+  </section>
+
+  <!-- ===== PRODUTOS ===== -->
+  <section id="produtos" class="max-w-5xl mx-auto px-4 sm:px-6 py-12">
+    <h3 class="font-display text-2xl font-semibold mb-6">Produtos da semana</h3>
+    <div id="gradeProdutos" class="grid grid-cols-2 sm:grid-cols-4 gap-5"></div>
+  </section>
+
+  <!-- ===== PRODUTOR EM DESTAQUE ===== -->
+  <section class="max-w-5xl mx-auto px-4 sm:px-6 pb-14">
+    <div class="grid md:grid-cols-2 gap-6 items-center bg-paper-dark rounded-2xl p-6 sm:p-8">
+      <img src="https://images.unsplash.com/photo-1500937386664-56d1dfef3854?w=600&q=80" alt="Sítio Boa Terra" class="w-full h-52 object-cover rounded-xl">
+      <div>
+        <p class="text-sm text-ink-muted mb-1">Produtor em destaque</p>
+        <p class="font-display text-xl font-semibold mb-2">Sítio Boa Terra</p>
+        <p class="text-ink-muted leading-relaxed text-sm">Há 12 anos cultivando hortaliças sem agrotóxico na Serra do Japi, com entrega direta toda quinta-feira.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== RODAPÉ ===== -->
+  <footer class="bg-forest-dark text-paper/80 py-8">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 text-sm flex flex-col sm:flex-row justify-between gap-2">
+      <p>GreenLife Market · Sorocaba, SP</p>
+      <p>contato@greenlifemarket.com.br</p>
+    </div>
+  </footer>
+
+  <!-- ===== DRAWER DO CARRINHO ===== -->
+  <div id="fundoCarrinho" onclick="fecharCarrinho()" class="hidden fixed inset-0 bg-black/50 z-50"></div>
+  <aside id="drawerCarrinho" class="fixed top-0 right-0 h-full w-full sm:w-96 bg-paper z-50 translate-x-full transition-transform duration-300 flex flex-col">
+    <div class="flex items-center justify-between p-5 border-b border-forest/10">
+      <h3 class="font-display text-xl font-semibold">Seu carrinho</h3>
+      <button onclick="fecharCarrinho()" aria-label="Fechar carrinho" class="text-2xl leading-none text-ink-muted hover:text-ink">×</button>
+    </div>
+    <div id="itensCarrinho" class="flex-1 overflow-y-auto p-5 space-y-4"></div>
+    <div class="border-t border-forest/10 p-5">
+      <div class="flex justify-between mb-4 font-semibold">
+        <span>Total</span>
+        <span id="totalCarrinho">R$ 0,00</span>
+      </div>
+      <button onclick="finalizarCompra()" class="w-full bg-lime text-forest-dark font-semibold py-3 rounded-full hover:bg-lime-dark transition-colors">Finalizar compra</button>
+    </div>
+  </aside>
+
+  <!-- ===== MODAL DE CONFIRMAÇÃO ===== -->
+  <div id="janelaModal" class="hidden fixed inset-0 bg-black/60 items-center justify-center p-4 z-50">
+    <div class="bg-paper rounded-2xl w-full max-w-sm p-8 shadow-2xl text-center">
+      <p class="font-display text-2xl font-semibold mb-2">Pedido recebido!</p>
+      <p class="text-ink-muted mb-6 leading-relaxed">Os produtores já foram avisados. Você recebe a confirmação por e-mail.</p>
+      <button onclick="fecharModal()" class="bg-forest text-paper px-6 py-3 rounded-full font-semibold hover:bg-forest-light transition-colors">Fechar</button>
+    </div>
+  </div>
+
+  <script>
+    const produtos = [
+      { id: 1, nome: "Alface crespa orgânica", produtor: "Horta da Serra", preco: 6.50, img: "https://images.unsplash.com/photo-1622206151226-18ca2c9ab4a1?w=400&q=80" },
+      { id: 2, nome: "Tomate cereja", produtor: "Sítio Boa Terra", preco: 9.90, img: "https://images.unsplash.com/photo-1592841200221-a6898f307baa?w=400&q=80" },
+      { id: 3, nome: "Morango orgânico", produtor: "Fazenda Raiz Viva", preco: 14.90, img: "https://images.unsplash.com/photo-1518635017498-87f514b751ba?w=400&q=80" },
+      { id: 4, nome: "Mel silvestre 500g", produtor: "Apiário Flor do Campo", preco: 28.00, img: "https://images.unsplash.com/photo-1587049352846-4a222e784d38?w=400&q=80" },
+      { id: 5, nome: "Queijo minas frescal", produtor: "Queijaria da Serra", preco: 22.00, img: "https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?w=400&q=80" },
+      { id: 6, nome: "Manjericão fresco", produtor: "Horta da Serra", preco: 4.00, img: "https://images.unsplash.com/photo-1466692476868-aef1dfb1e735?w=400&q=80" },
+      { id: 7, nome: "Banana prata (kg)", produtor: "Sítio Boa Terra", preco: 4.50, img: "https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?w=400&q=80" },
+      { id: 8, nome: "Doce de leite artesanal", produtor: "Fazenda Raiz Viva", preco: 16.50, img: "https://images.unsplash.com/photo-1571167530149-c72f2b8942d5?w=400&q=80" },
+    ];
+
+    let carrinho = {};
+
+    function formatarPreco(v) { return "R$ " + v.toFixed(2).replace(".", ","); }
+
+    function renderizarProdutos() {
+      document.getElementById("gradeProdutos").innerHTML = produtos.map(p => `
+        <div class="bg-white rounded-xl border border-forest/10 overflow-hidden flex flex-col">
+          <img src="${p.img}" alt="${p.nome}" class="w-full h-28 sm:h-32 object-cover">
+          <div class="p-3 flex flex-col flex-1">
+            <p class="font-medium text-sm leading-snug flex-1">${p.nome}</p>
+            <p class="text-xs text-ink-muted mb-2">${p.produtor}</p>
+            <div class="flex items-center justify-between">
+              <span class="font-display font-semibold text-sm">${formatarPreco(p.preco)}</span>
+              <button onclick="adicionarAoCarrinho(${p.id})" aria-label="Adicionar ${p.nome}" class="bg-forest text-paper text-xs font-semibold px-3 py-2 rounded-full hover:bg-forest-light transition-colors">Adicionar</button>
+            </div>
+          </div>
+        </div>
+      `).join("");
+    }
+
+    function adicionarAoCarrinho(id) { carrinho[id] = (carrinho[id] || 0) + 1; atualizarCarrinho(); }
+    function removerDoCarrinho(id) { delete carrinho[id]; atualizarCarrinho(); }
+    function alterarQuantidade(id, delta) {
+      carrinho[id] = (carrinho[id] || 0) + delta;
+      if (carrinho[id] <= 0) delete carrinho[id];
+      atualizarCarrinho();
+    }
+
+    function atualizarCarrinho() {
+      const ids = Object.keys(carrinho);
+      document.getElementById("contadorCarrinho").textContent = ids.reduce((s, id) => s + carrinho[id], 0);
+
+      const container = document.getElementById("itensCarrinho");
+      container.innerHTML = ids.length === 0
+        ? `<p class="text-ink-muted text-sm py-8 text-center">Seu carrinho está vazio.</p>`
+        : ids.map(id => {
+            const p = produtos.find(x => x.id === Number(id));
+            return `
+              <div class="flex gap-3 items-center">
+                <img src="${p.img}" alt="${p.nome}" class="w-16 h-16 object-cover rounded-lg">
+                <div class="flex-1">
+                  <p class="text-sm font-medium">${p.nome}</p>
+                  <div class="flex items-center gap-2 mt-1">
+                    <button onclick="alterarQuantidade(${p.id}, -1)" aria-label="Diminuir" class="w-6 h-6 rounded-full border border-forest/30 text-sm">−</button>
+                    <span class="text-sm w-4 text-center">${carrinho[id]}</span>
+                    <button onclick="alterarQuantidade(${p.id}, 1)" aria-label="Aumentar" class="w-6 h-6 rounded-full border border-forest/30 text-sm">+</button>
+                  </div>
+                </div>
+                <button onclick="removerDoCarrinho(${p.id})" aria-label="Remover" class="text-ink-muted hover:text-ink text-sm">Remover</button>
+              </div>`;
+          }).join("");
+
+      const total = ids.reduce((s, id) => s + carrinho[id] * produtos.find(x => x.id === Number(id)).preco, 0);
+      document.getElementById("totalCarrinho").textContent = formatarPreco(total);
+    }
+
+    function abrirCarrinho() {
+      document.getElementById("drawerCarrinho").classList.remove("translate-x-full");
+      document.getElementById("fundoCarrinho").classList.remove("hidden");
+    }
+    function fecharCarrinho() {
+      document.getElementById("drawerCarrinho").classList.add("translate-x-full");
+      document.getElementById("fundoCarrinho").classList.add("hidden");
+    }
+    function finalizarCompra() {
+      if (Object.keys(carrinho).length === 0) return;
+      carrinho = {};
+      atualizarCarrinho();
+      fecharCarrinho();
+      document.getElementById("janelaModal").classList.remove("hidden");
+      document.getElementById("janelaModal").classList.add("flex");
+    }
+    function fecharModal() {
+      document.getElementById("janelaModal").classList.add("hidden");
+      document.getElementById("janelaModal").classList.remove("flex");
+    }
+
+    renderizarProdutos();
+    atualizarCarrinho();
+  </script>
+</body>
+</html>

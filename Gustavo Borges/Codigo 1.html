@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pichou</title>
+
+  <!-- Framework de responsividade: Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-slate-100 text-slate-800">
+
+  <!-- Barra de menu -->
+  <nav class="bg-red-700 text-white">
+    <div class="max-w-6xl mx-auto px-4 py-4 flex flex-col sm:flex-row items-center justify-between gap-3">
+
+      <h1 class="text-2xl font-bold">Pichou</h1>
+
+      <div class="flex flex-wrap justify-center gap-4 text-sm sm:text-base">
+        <a href="#produtos" class="hover:text-red-200">Produtos</a>
+        <a href="#cadastro" class="hover:text-red-200">Admin</a>
+        <a href="#galeria" class="hover:text-red-200">Galeria</a>
+      </div>
+
+    </div>
+  </nav>
+
+  <main class="max-w-6xl mx-auto p-4 sm:p-6">
+
+    <!-- Apresentação -->
+    <section class="bg-white rounded-2xl shadow p-6 mb-6">
+      <h2 class="text-3xl font-bold mb-2">
+        Loja de peças gamers
+      </h2>
+
+      <p class="text-slate-600">
+        Monte sua maquina dos sonhos!
+      </p>
+    </section>
+
+    <!-- Tabela -->
+    <section id="produtos" class="bg-white rounded-2xl shadow p-4 sm:p-6 mb-6">
+
+      <h2 class="text-2xl font-bold mb-4">
+        Produtos
+      </h2>
+
+      <div class="overflow-x-auto">
+
+        <table class="w-full min-w-[600px] border-collapse">
+
+          <thead>
+            <tr class="bg-red-700 text-white">
+              <th class="p-3 text-left">Produto</th>
+              <th class="p-3 text-left">Categoria</th>
+              <th class="p-3 text-left">Preço</th>
+              <th class="p-3 text-left">Estoque</th>
+            </tr>
+          </thead>
+
+          <tbody>
+
+            <tr class="border-b">
+              <td class="p-3">Teclado Mecânico</td>
+              <td class="p-3">Periférico</td>
+              <td class="p-3">R$ 249,90</td>
+              <td class="p-3">12</td>
+            </tr>
+
+            <tr class="border-b">
+              <td class="p-3">Mouse Gamer</td>
+              <td class="p-3">Periférico</td>
+              <td class="p-3">R$ 159,90</td>
+              <td class="p-3">20</td>
+            </tr>
+
+            <tr>
+              <td class="p-3">Monitor 24"</td>
+              <td class="p-3">Imagem</td>
+              <td class="p-3">R$ 899,90</td>
+              <td class="p-3">7</td>
+            </tr>
+
+          </tbody>
+
+        </table>
+
+      </div>
+    </section>
+
+    <!-- Formulário -->
+    <section id="cadastro" class="bg-white rounded-2xl shadow p-4 sm:p-6 mb-6">
+
+      <h2 class="text-2xl font-bold mb-4">
+        Login de administrador
+      </h2>
+
+      <form id="formulario" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+        <div>
+          <label class="block font-semibold mb-1" for="nome">
+            Nome
+          </label>
+
+          <input
+            id="nome"
+            required
+            class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-red-400"
+            type="text"
+            placeholder="Seu nome"
+          >
+        </div>
+
+        <div>
+          <label class="block font-semibold mb-1" for="email">
+            E-mail
+          </label>
+
+          <input
+            id="email"
+            required
+            class="w-full border rounded-lg p-3 focus:ring-2 focus:ring-red-400"
+            type="email"
+            placeholder="seu@email.com"
+          >
+        </div>
+
+        <div class="md:col-span-2">
+
+          <button
+            class="bg-red-700 hover:bg-red-800 text-white font-bold px-5 py-3 rounded-lg"
+            type="submit"
+          >
+            Cadastrar
+          </button>
+
+        </div>
+
+      </form>
+    </section>
+
+    <!-- Carrossel -->
+    <section id="galeria" class="bg-white rounded-2xl shadow p-4 sm:p-6 mb-6">
+
+      <h2 class="text-2xl font-bold mb-4">
+        Imagens
+      </h2>
+
+      <div class="relative">
+
+        <img
+          id="imagem"
+          class="w-full h-56 sm:h-80 object-cover rounded-xl"
+          src="https://picsum.photos/id/1/1000/500"
+          alt="Imagem da galeria"
+        >
+
+        <!-- Botão anterior -->
+        <button
+          onclick="anterior()"
+          class="absolute left-3 top-1/2 -translate-y-1/2 bg-red-700 hover:bg-red-800 text-white px-4 py-2 rounded-full"
+        >
+          ‹
+        </button>
+
+        <!-- Botão próximo -->
+        <button
+          onclick="proxima()"
+          class="absolute right-3 top-1/2 -translate-y-1/2 bg-red-700 hover:bg-red-800 text-white px-4 py-2 rounded-full"
+        >
+          ›
+        </button>
+
+      </div>
+    </section>
+
+    <!-- Promoções -->
+    <section class="bg-white rounded-2xl shadow p-4 sm:p-6">
+
+      <h2 class="text-2xl font-bold mb-3">
+        Promoções
+      </h2>
+
+      <button
+        onclick="abrirModal()"
+        class="bg-red-700 hover:bg-red-800 text-white px-5 py-3 rounded-lg"
+      >
+        Resgate sua promoção
+      </button>
+
+    </section>
+
+  </main>
+
+  <!-- Modal -->
+  <div
+    id="modal"
+    class="hidden fixed inset-0 bg-black/60 items-center justify-center p-4"
+  >
+
+    <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl">
+
+      <h2 class="text-2xl font-bold mb-2">
+        Falha no resgate
+      </h2>
+
+      <p class="text-slate-600 mb-5">
+        Estamos sem promoções no momento, tente em outro momento
+      </p>
+
+      <button
+        onclick="fecharModal()"
+        class="bg-red-700 hover:bg-red-800 text-white px-5 py-2 rounded-lg"
+      >
+        Fechar
+      </button>
+
+    </div>
+
+  </div>
+
+  <script>
+
+    // Imagens do carrossel
+    const imagens = [
+      "https://picsum.photos/id/1/1000/500",
+      "https://picsum.photos/id/3/1000/500",
+      "https://picsum.photos/id/6/1000/500"
+    ];
+
+    let indice = 0;
+
+    // Atualiza a imagem
+    function atualizarImagem() {
+      document.getElementById("imagem").src = imagens[indice];
+    }
+
+    // Próxima imagem
+    function proxima() {
+      indice = (indice + 1) % imagens.length;
+      atualizarImagem();
+    }
+
+    // Imagem anterior
+    function anterior() {
+      indice = (indice - 1 + imagens.length) % imagens.length;
+      atualizarImagem();
+    }
+
+    // Abre o modal
+    function abrirModal() {
+      const modal = document.getElementById("modal");
+
+      modal.classList.remove("hidden");
+      modal.classList.add("flex");
+    }
+
+    // Fecha o modal
+    function fecharModal() {
+      const modal = document.getElementById("modal");
+
+      modal.classList.add("hidden");
+      modal.classList.remove("flex");
+    }
+
+    // Formulário
+    document
+      .getElementById("formulario")
+      .addEventListener("submit", function(event) {
+
+        event.preventDefault();
+
+        alert("Esta conta não tem acesso a essa área");
+
+        this.reset();
+      });
+
+  </script>
+
+</body>
+</html>
