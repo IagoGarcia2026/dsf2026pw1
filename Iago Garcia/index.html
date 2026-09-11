@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Minha Galeria</title>
+
+<link rel="stylesheet"
+href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css">
+
+<style>
+
+*{box-sizing:border-box}
+
+html,body{
+    margin:0;padding:0;width:100%;height:100%;
+    overflow:hidden;font-family:Arial,sans-serif;
+    background:#f2f2f2
+}
+
+.navbar{
+    position:fixed;top:0;width:100%;z-index:1000;
+    box-shadow:0 2px 8px #0005
+}
+
+.navbar-item{cursor:pointer}
+.menu-link:hover{background:#363636!important}
+
+.tela{
+    position:absolute;top:52px;width:100%;
+    height:calc(100vh - 52px);display:none;
+    overflow-y:auto;padding:40px 20px;
+    animation:aparecer .3s
+}
+
+.tela.ativa{display:flex}
+
+@keyframes aparecer{
+    from{opacity:0}
+    to{opacity:1}
+}
+
+/* INÍCIO */
+
+#inicio{
+    align-items:center;justify-content:center;
+    text-align:center;color:white;
+    background:linear-gradient(#0002,#0002),
+    url("https://picsum.photos/id/1018/1920/1080");
+    background-size:cover;background-position:center;
+    overflow:hidden
+}
+
+#inicio:before{
+    content:"";position:absolute;inset:0;
+    background:linear-gradient(#0002,#0002),
+    var(--proximo-fundo);
+    background-size:cover;background-position:center;
+    opacity:0;transition:.8s;pointer-events:none
+}
+
+#inicio.trocando-fundo:before{opacity:1}
+
+.inicio-conteudo{position:relative;z-index:2}
+
+.inicio-conteudo h1{
+    font-size:3.2rem;text-shadow:2px 2px 5px #000
+}
+
+.inicio-conteudo p{
+    font-size:1.2rem;text-shadow:1px 1px 3px #000;
+    margin-bottom:25px
+}
+
+.botao-inicio:hover{transform:scale(1.05)}
+
+/* GALERIA */
+
+#galeria{background:#f2f2f2}
+
+.galeria-conteudo{
+    width:100%;max-width:950px;margin:auto
+}
+
+.galeria{
+    background:white;padding:25px;border-radius:18px;
+    box-shadow:0 5px 25px #0002
+}
+
+.imagem-container{position:relative}
+
+.imagem-principal{
+    width:100%;height:450px;object-fit:cover;
+    transition:.25s
+}
+
+.imagem-principal.trocando{
+    opacity:.2;transform:scale(1.02)
+}
+
+.contador{
+    position:absolute;bottom:10px;right:10px;
+    background:#000b;color:white;padding:5px 10px;
+    border-radius:5px
+}
+
+.controles{
+    display:flex;justify-content:center;gap:15px;
+    margin:20px 0
+}
+
+.controles button{min-width:130px}
+.botao-tela-cheia{width:100%}
+
+.miniaturas{
+    display:flex;gap:10px;overflow-x:auto;
+    margin-top:20px;padding-bottom:5px
+}
+
+.miniatura{
+    width:90px;height:60px;object-fit:cover;
+    cursor:pointer;opacity:.6;border:3px solid transparent;
+    flex-shrink:0
+}
+
+.miniatura:hover,.miniatura.ativa{
+    opacity:1;border-color:#3273dc
+}
+
+.descricao{text-align:center;color:#444;margin-top:15px}
+
+/* MODAL */
+
+.modal-sobre{
+    position:fixed;inset:0;z-index:2000;
+    display:none;align-items:center;justify-content:center;
+    padding:20px;background:#0008
+}
+
+.modal-sobre.aberto{display:flex}
+
+.modal-sobre .sobre{
+    position:relative;width:100%;max-width:800px;
+    max-height:90vh;overflow-y:auto;
+    background:white;padding:45px;border-radius:18px;
+    box-shadow:0 5px 30px #0008;
+    animation:aparecer .2s
+}
+
+.sobre p{margin-bottom:15px}
+
+.fechar-sobre{
+    position:absolute;top:8px;right:15px;
+    border:0;background:none;font-size:30px;
+    cursor:pointer;color:#555
+}
+
+/* CRÉDITOS */
+
+.creditos{
+    position:fixed;right:10px;bottom:5px;
+    z-index:999;color:#3273dc;font-size:14px;
+    text-shadow:1px 1px 0 white
+}
+
+/* MODO ESCURO */
+
+body.modo-escuro,
+body.modo-escuro #galeria{
+    background:#181818
+}
+
+body.modo-escuro .galeria,
+body.modo-escuro .sobre{
+    background:#242424;color:white;
+    box-shadow:0 5px 25px #0006
+}
+
+body.modo-escuro .titulo,
+body.modo-escuro .sobre h1{color:white}
+
+body.modo-escuro .subtitulo{color:#d0d0d0}
+
+body.modo-escuro .descricao,
+body.modo-escuro .sobre p{color:#e0e0e0}
+
+body.modo-escuro .botao-tela-cheia{
+    background:#363636;color:white;border-color:#555
+}
+
+body.modo-escuro .botao-tela-cheia:hover{background:#444}
+
+body.modo-escuro .fechar-sobre{color:#ddd}
+
+/* RESPONSIVO */
+
+@media(max-width:768px){
+    .navbar-menu{display:block}
+    .inicio-conteudo h1{font-size:2.2rem}
+    .imagem-principal{height:350px}
+    .modal-sobre .sobre{padding:30px}
+}
+
+@media(max-width:480px){
+    .tela{padding:25px 10px}
+    .inicio-conteudo h1{font-size:1.8rem}
+    .inicio-conteudo p{font-size:1rem}
+    .imagem-principal{height:250px}
+    .controles button{min-width:0;flex:1}
+}
+
+
+/* MODO ESCURO */
+
+</style>
+</head>
+
+<body class="modo-escuro">
+
+<!-- MENU -->
+
+<nav class="navbar is-dark">
+
+    <div class="container">
+
+        <div class="navbar-brand">
+
+            <a class="navbar-item"
+               onclick="mostrarTela('inicio')">
+                <strong>Minha Galeria</strong>
+            </a>
+
+        </div>
+
+        <div class="navbar-menu">
+
+            <div class="navbar-end">
+
+                <a class="navbar-item menu-link"
+                   onclick="mostrarTela('inicio')">
+                    Início
+                </a>
+
+                <a class="navbar-item menu-link"
+                   onclick="mostrarTela('galeria')">
+                    Galeria
+                </a>
+
+                <a class="navbar-item menu-link"
+                   onclick="abrirSobre()">
+                    Sobre
+                </a>
+
+                <a id="botao-modo"
+                   class="navbar-item menu-link"
+                   onclick="alternarModoEscuro()">
+                    Modo claro
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</nav>
+
+
+<!-- INÍCIO -->
+
+<section id="inicio" class="tela ativa">
+
+    <div class="inicio-conteudo">
+
+        <h1>Bem-vindo à Minha Galeria</h1>
+
+        <p>
+            Explore uma coleção de imagens em uma galeria
+            responsiva criada com HTML, CSS, JavaScript e Bulma.
+        </p>
+
+        <button class="button is-link is-medium botao-inicio"
+                onclick="mostrarTela('galeria')">
+            Explorar Galeria
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- GALERIA -->
+
+<section id="galeria" class="tela">
+
+    <div class="galeria-conteudo">
+
+        <h1 class="title titulo">Galeria de Imagens</h1>
+
+        <p class="subtitle subtitulo">
+            Navegue pelas imagens usando os controles
+            ou as miniaturas.
+        </p>
+
+        <div class="galeria">
+
+            <div class="imagem-container">
+
+                <img id="imagem"
+                     class="imagem-principal"
+                     src="https://picsum.photos/id/1015/900/450"
+                     alt="Imagem da galeria">
+
+                <span id="contador" class="contador">
+                    1 / 10
+                </span>
+
+            </div>
+
+            <div class="controles">
+
+                <button class="button is-dark"
+                        onclick="anterior()">
+                    ← Anterior
+                </button>
+
+                <button class="button is-link"
+                        onclick="proxima()">
+                    Próxima →
+                </button>
+
+            </div>
+
+            <button class="button is-light botao-tela-cheia"
+                    onclick="telaCheia()">
+                ⛶ Ver em tela cheia
+            </button>
+
+            <div id="miniaturas" class="miniaturas"></div>
+
+            <p id="descricao" class="descricao">
+                Paisagem natural
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- MODAL SOBRE -->
+
+<div id="modal-sobre"
+     class="modal-sobre"
+     onclick="fecharSobre(event)">
+
+    <div class="sobre">
+
+        <button class="fechar-sobre"
+                onclick="fecharSobre()">
+            ×
+        </button>
+
+        <h1 class="title">Sobre o projeto</h1>
+
+        <p>
+            Esta página foi desenvolvida como um projeto
+            de galeria de imagens responsiva.
+        </p>
+
+        <p>
+            O HTML foi utilizado para estruturar as telas,
+            o CSS para definir a aparência e o JavaScript
+            para adicionar funcionalidades e interações.
+        </p>
+
+        <p>
+            Também foi utilizado o framework Bulma para
+            auxiliar na construção dos componentes e do layout.
+        </p>
+
+        <button class="button is-link"
+                onclick="fecharSobre()">
+            Fechar
+        </button>
+
+    </div>
+
+</div>
+
+<script>
+
+/* TELAS */
+
+function mostrarTela(nome){
+    document.querySelector(".tela.ativa").classList.remove("ativa");
+    document.getElementById(nome).classList.add("ativa");
+}
+
+
+/* SOBRE */
+
+function abrirSobre(){
+    document.getElementById("modal-sobre").classList.add("aberto");
+}
+
+function fecharSobre(event){
+
+    if(!event || event.target.id === "modal-sobre")
+        document.getElementById("modal-sobre").classList.remove("aberto");
+
+}
+
+
+/* MODO ESCURO */
+
+function alternarModoEscuro(){
+
+    document.body.classList.toggle("modo-escuro");
+
+    document.getElementById("botao-modo").textContent =
+        document.body.classList.contains("modo-escuro")
+        ? "Modo claro"
+        : "Modo escuro";
+}
+
+
+/* GALERIA */
+
+const imagens = [
+    ["1015","Paisagem natural"],
+    ["1016","Paisagem de montanha"],
+    ["1018","Vista da natureza"],
+    ["1025","Cachorro"],
+    ["1035","Paisagem ao ar livre"],
+    ["1040","Paisagem urbana"],
+    ["1043","Floresta"],
+    ["1050","Montanhas"],
+    ["1069","Paisagem ao ar livre"],
+    ["1074","Natureza"]
+];
+
+let atual = 0;
+
+function atualizarImagem(){
+
+    const imagem = document.getElementById("imagem");
+
+    imagem.classList.add("trocando");
+
+    setTimeout(function(){
+
+        imagem.src =
+            "https://picsum.photos/id/" +
+            imagens[atual][0] + "/900/450";
+
+        document.getElementById("contador").textContent =
+            atual + 1 + " / " + imagens.length;
+
+        document.getElementById("descricao").textContent =
+            imagens[atual][1];
+
+        atualizarMiniaturas();
+        imagem.classList.remove("trocando");
+
+    },150);
+}
+
+function proxima(){
+    atual = (atual + 1) % imagens.length;
+    atualizarImagem();
+}
+
+function anterior(){
+    atual = (atual - 1 + imagens.length) % imagens.length;
+    atualizarImagem();
+}
+
+
+/* MINIATURAS */
+
+function criarMiniaturas(){
+
+    const area = document.getElementById("miniaturas");
+
+    imagens.forEach(function(item,indice){
+
+        const miniatura = document.createElement("img");
+
+        miniatura.src =
+            "https://picsum.photos/id/" +
+            item[0] + "/180/100";
+
+        miniatura.className = "miniatura";
+        miniatura.alt = "Miniatura " + (indice + 1);
+
+        miniatura.onclick = function(){
+            atual = indice;
+            atualizarImagem();
+        };
+
+        area.appendChild(miniatura);
+
+    });
+
+    atualizarMiniaturas();
+}
+
+function atualizarMiniaturas(){
+
+    document.querySelectorAll(".miniatura").forEach(
+        function(miniatura,indice){
+
+            miniatura.classList.toggle(
+                "ativa",indice === atual
+            );
+
+        }
+    );
+
+}
+
+
+/* TELA CHEIA */
+
+function telaCheia(){
+    document.getElementById("imagem").requestFullscreen();
+}
+
+
+/* TECLADO */
+
+document.addEventListener("keydown",function(event){
+
+    if(event.key === "ArrowRight") proxima();
+    if(event.key === "ArrowLeft") anterior();
+
+    if(event.key === "Escape")
+        fecharSobre();
+
+});
+
+
+/* FUNDOS */
+
+const fundos = ["1018","1015","1016","1036","1043","1050"];
+let fundoAtual = 0;
+
+function carregarFundos(){
+
+    fundos.forEach(function(id){
+
+        const imagem = new Image();
+
+        imagem.src =
+            "https://picsum.photos/id/" +
+            id + "/1920/1080";
+
+    });
+
+}
+
+function trocarFundoInicio(){
+
+    const inicio = document.getElementById("inicio");
+
+    if(inicio.classList.contains("trocando-fundo")) return;
+
+    fundoAtual = (fundoAtual + 1) % fundos.length;
+
+    inicio.style.setProperty(
+        "--proximo-fundo",
+        "url('https://picsum.photos/id/" +
+        fundos[fundoAtual] + "/1920/1080')"
+    );
+
+    inicio.classList.add("trocando-fundo");
+
+    setTimeout(function(){
+
+        inicio.style.backgroundImage =
+            "linear-gradient(#0002,#0002)," +
+            "url('https://picsum.photos/id/" +
+            fundos[fundoAtual] + "/1920/1080')";
+
+        inicio.classList.remove("trocando-fundo");
+
+    },800);
+
+}
+
+
+/* INICIAR */
+
+window.onload = function(){
+    criarMiniaturas();
+    carregarFundos();
+};
+
+setInterval(trocarFundoInicio,6000);
+
+</script>
+
+</body>
+</html>
